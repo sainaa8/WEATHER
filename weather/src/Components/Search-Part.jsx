@@ -5,7 +5,13 @@ export const Search = () => {
       <div className="text-zinc-400 flex items-center ml-[20px]">
         <IoIosSearch />
       </div>
-      <input className="ml-[10px] w-[200px] h-[40px] border-none"></input>
+      <input
+        type="text"
+        style={{ border: "none" }}
+        placeholder="Search"
+        className="ml-[10px] w-[200px] h-[40px] "
+      ></input>
+      <div>click</div>
     </div>
   );
 };

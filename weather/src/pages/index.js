@@ -3,24 +3,48 @@ import { Side } from "@/Components/BlackWhiteSide";
 import { Sugg } from "@/Components/Suggestion";
 import Image from "next/image";
 import { Inside } from "@/Components/Inside";
-export default function Home() {
+import Logos from "@/Components/PineconoLogo";
+// import Home from "@/Components/Test";
+import { useState } from "react";
+
+export default function Home(props) {
+  const [temp, setTemp] = useState("0");
+
+  const { handle } = props;
+  const handleS = async () => {
+    const api_key = "7c91776fb1267161889e298c3e7ceb4b";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=Ulaanbaatar&lang=en&units=Metric&appid=${api_key}`;
+    const waitMe = await fetch(url);
+    const data = await waitMe.json();
+    const tempur = data.main.temp_max;
+    setTemp(tempur);
+  };
   return (
     <div className="flex justify-center mt-[200px]  ">
-      <div className="relative px-[40px] py-[40px] w-fit bg-stone-800">
-        <Search />
+      <div className="relative px-[40px] py-[40px] w-fit z bg-stone-800 flex justify-center">
+        <Logos dayImage="/logoleft.svg" dayShadow="/logoright.svg" />
+        <div
+          onClick={() => {
+            handleS();
+          }}
+        >
+          <Search />
+        </div>
         {/* <Sugg /> */}
         <Image
           src="/bigsun.png"
           width={130}
           height={130}
-          className="absolute z-30 top-[270px] left-[180px] drop-shadow-2xl"
+          className="absolute z-40 top-[270px] left-[180px] drop-shadow-2xl"
         />
+        <div className="absolute z-30 top-[270px] left-[180px] w-[130px] h-[130px] bg-yellow-300 blur-xl rounded-full"></div>
         <Image
           src="/bigmoon.png"
           width={130}
           height={130}
-          className="absolute z-30 top-[270px] right-[180px]"
+          className="absolute z-40 top-[270px] right-[180px]"
         />
+        <div className="absolute z-30 w-[130px] h-[130px] rounded-full top-[270px] right-[180px] bg-white blur-xl"></div>
         <Image
           src="/sun.png"
           width={100}
@@ -38,11 +62,10 @@ export default function Home() {
           bg="#fbfbfc"
           textclr="black"
           textSize="34px"
-          temp="-11"
-          tempClr="black"
+          temp={temp}
+          check={false}
           mood="Bright"
           moodClr="#ff8d28"
-          iconClr="black"
         />
         <Inside
           right="120px"
@@ -51,12 +74,11 @@ export default function Home() {
           textclr2="white"
           textSize="34px"
           temp={"-20"}
-          tempClr="#b3b6ba"
+          check={true}
           mood="Clear"
           moodClr="#6b70ba"
-          iconClr="white"
         />
-        <div className="flex">
+        <div className="flex relative">
           <Side bg="#F3F4F6;" radius="13px" />
           <Side bg="#0F141E;" blackRadius="13px" />
         </div>{" "}

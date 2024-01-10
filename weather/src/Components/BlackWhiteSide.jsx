@@ -1,9 +1,8 @@
-
 export const Side = (props) => {
   const { bg, radius = "", blackRadius, sunImg = "", top, right } = props;
   return (
     <div
-      className={`w-[400px] h-[600px] flex justify-center relative	 `}
+      className={`w-[400px] h-[600px] flex justify-center relative	opacity-[0.93] `}
       style={{
         backgroundColor: `${bg}`,
         borderTopLeftRadius: `${radius}`,
@@ -11,8 +10,6 @@ export const Side = (props) => {
         borderTopRightRadius: `${blackRadius}`,
         borderBottomRightRadius: `${blackRadius}`,
       }}
-    >
-      
-    </div>
+    ></div>
   );
 };

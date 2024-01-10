@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.logo-corner {
+  position: relative;
+  left: 80px;
+  top: 100%;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  box-shadow: 0 207px yellow;
+}
+
+.logo-corner::before {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-bottom-left-radius: 50%;
+  background-color: green;
+}
+
+.logo-corner::after {
+  content: "";
+  position: absolute;
+  top: 207px;
+  width: 50px;
+  height: 50px;
+  border-top-left-radius: 50%;
+  background-color: green;
+}
