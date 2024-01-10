@@ -4,12 +4,12 @@
 
 .logo-corner {
   position: relative;
-  left: 80px;
-  top: 100%;
+  left: 45px;
+  top: -45px;
   width: 50px;
   height: 50px;
-  background-color: white;
-  box-shadow: 0 207px yellow;
+  background-color: #f3f4f6;
+  box-shadow: 0 133px #f3f4f6;
 }
 
 .logo-corner::before {
@@ -18,15 +18,15 @@
   width: 50px;
   height: 50px;
   border-bottom-left-radius: 50%;
-  background-color: green;
+  background-color: #0f141e;
 }
 
 .logo-corner::after {
   content: "";
   position: absolute;
-  top: 207px;
+  top: 131px;
   width: 50px;
-  height: 50px;
+  height: 52px;
   border-top-left-radius: 50%;
-  background-color: green;
+  background-color: #0f141e;
 }

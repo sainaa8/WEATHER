@@ -9,26 +9,27 @@ import { useState } from "react";
 
 export default function Home(props) {
   const [temp, setTemp] = useState("0");
-
-  const { handle } = props;
-  const handleS = async () => {
+  const [state, setState] = useState("");
+  const { temporary = true } = props;
+  const handleweater = async () => {
     const api_key = "7c91776fb1267161889e298c3e7ceb4b";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=Ulaanbaatar&lang=en&units=Metric&appid=${api_key}`;
     const waitMe = await fetch(url);
     const data = await waitMe.json();
-    const tempur = data.main.temp_max;
-    setTemp(tempur);
+    const dayState = data.weather[0].description;
+    const nightState = data.weather[0].main;
+    const tempurNight = data.main.temp_max;
+    const tempurDay = data.main.temp_min;
+    setTemp(temporary ? tempurNight : tempurDay);
+    setState(temporary ? nightState : dayState);
+    console.log(data);
   };
   return (
     <div className="flex justify-center mt-[200px]  ">
       <div className="relative px-[40px] py-[40px] w-fit z bg-stone-800 flex justify-center">
         <Logos dayImage="/logoleft.svg" dayShadow="/logoright.svg" />
-        <div
-          onClick={() => {
-            handleS();
-          }}
-        >
-          <Search />
+        <div>
+          <Search handleweat={handleweater} />
         </div>
         {/* <Sugg /> */}
         <Image
@@ -62,9 +63,10 @@ export default function Home(props) {
           bg="#fbfbfc"
           textclr="black"
           textSize="34px"
+          temporary={true}
           temp={temp}
           check={false}
-          mood="Bright"
+          mood={state}
           moodClr="#ff8d28"
         />
         <Inside
@@ -73,9 +75,10 @@ export default function Home(props) {
           textclr="#777e8b"
           textclr2="white"
           textSize="34px"
-          temp={"-20"}
+          temp={temp}
+          temporary={false}
           check={true}
-          mood="Clear"
+          mood={state}
           moodClr="#6b70ba"
         />
         <div className="flex relative">
