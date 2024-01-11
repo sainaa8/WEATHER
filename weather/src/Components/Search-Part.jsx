@@ -1,6 +1,6 @@
 import { IoIosSearch } from "react-icons/io";
 export function Search(props) {
-  const { handleweat } = props;
+  const { handleweat, SetIputSearcgPart } = props;
 
   return (
     <div className="absolute z-30 top-[60px] left-[60px] flex items-center bg-white w-[320px] shadow-2xl h-[50px] rounded-3xl text-[20px]">
@@ -8,6 +8,7 @@ export function Search(props) {
         <IoIosSearch />
       </div>
       <input
+        onChange={(el) => SetIputSearcgPart(el.target.value)}
         type="text"
         style={{ border: "none" }}
         placeholder="Search"

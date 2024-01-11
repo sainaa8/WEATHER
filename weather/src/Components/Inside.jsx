@@ -12,10 +12,10 @@ export const Inside = (props) => {
     textclr2,
     textSize,
     temp,
-
+    locationInIsidePard,
     mood,
     moodClr,
-   
+
     check = true,
   } = props;
   let newDate = new Date();
@@ -23,10 +23,8 @@ export const Inside = (props) => {
     month = newDate.toLocaleString("default", { month: "long" }),
     date = newDate.getDate(),
     year = newDate.getFullYear(),
-    location = "",
+    location = "America",
   } = props;
-
-  
 
   return (
     <div
@@ -39,7 +37,7 @@ export const Inside = (props) => {
             {month} {date} {year}
           </div>
           <div style={{ color: `${textclr2}`, fontSize: `${textSize}` }}>
-            Ulaanbaatar
+            {locationInIsidePard}
           </div>
         </div>
         <div style={{ color: `${textclr2}` }} className="text-[25px] mt-[27px]">

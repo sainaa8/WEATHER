@@ -1,69 +1,66 @@
-
-import { DateLocation } from "@/components/DateLocation";
-import { IconRow } from "@/components/IconRow";
-import { Celcius } from "@/components/Celcius";
-import { useState } from "react";
+import { IoIosSearch } from "react-icons/io";
+import { CiLocationOn } from "react-icons/ci";
+import axios from "axios";
  
-import Image from "next/image";
+import { useState, useEffect } from "react";
  
-export const Weather = (props) => {
-  const { bg = "#F3F4F6", imgSrc = "", check = true } = props;
-  const dStyle = { backgroundColor: `${bg}` };
-  const nStyle = {
-    backgroundColor: `${bg}`,
-    background: `linear-gradient(180deg, #1F2937 0%, rgba(17, 24, 39, 0.00) 100%);
+export const Search = () => {
+  const [input, setInput] = useState("");
+  const [array, setArray] = useState([]);
  
-    )`,
-  };
-  const dimgBg = "bg-yellow-300";
-  const nimgBg = "bg-white";
+  //   useEffect(() => {
+  //     const gitFetcher = async () => {
+  //       // const api_key = "7c91776fb1267161889e298c3e7ceb4b";
+  //       const url = `https:api.mapbox.com/geocoding/v5/mapbox.places/${input}.json?access_token=pk.eyJ1IjoidHVydXV1dSIsImEiOiJjbDBhZW15ZHAwMGhjM2RtZjB6dnltZnhjIn0.HSb4dmJFSM2USxDkTsScDg`;
  
-  const [temp, setTemp] = useState(0);
-  const [mainDay, setMainDay] = useState("");
+  //       const result = await axios(url);
+  //       const data = result.data.features.map((user) => {
+  //         return user.place_name;
+  //       });
+  //       console.log(data);
+  //       setArray(data);
+  //       gitFetcher();
+  //     };
+  //   }, [input]);
  
-  const fetchData = async () => {
-    const hour = new Date().getHours();
-    const api_key = "7c91776fb1267161889e298c3e7ceb4b";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=Ulaanbaatar&lang=en&units=Metric&appid=${api_key}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    const mainDay = data.weather[0].main;
-    const dtemp = data.main.temp_max;
-    const ntemp = data.main.temp_min;
+  const gitFetcher = async () => {
+    // const api_key = "7c91776fb1267161889e298c3e7ceb4b";
+    const url = `https:api.mapbox.com/geocoding/v5/mapbox.places/${input}.json?access_token=pk.eyJ1IjoidHVydXV1dSIsImEiOiJjbDBhZW15ZHAwMGhjM2RtZjB6dnltZnhjIn0.HSb4dmJFSM2USxDkTsScDg`;
  
-    setTemp(check ? dtemp : ntemp);
-    setMainDay(mainDay);
-    console.log(mainDay);
+    const result = await axios(url);
+    const data = result.data.features.map((user) => {
+      return user.place_name;
+    });
     console.log(data);
+    setArray(data);
   };
  
   return (
-    <div
-      className={`flex flex-col items-center justify-start bg-[${bg}] rounded-[48px] p-[48px] w-fit`}
-      style={check ? dStyle : nStyle}
-    >
-      <DateLocation location="Mongolia" Dcheck={check} />
-      <div
-        className="mt-[46px] w-[200px] h-[200px] rounded-full flex items-center justify-center"
-        onClick={() => {
-          fetchData();
-        }}
-      >
-        <div
-          className={`absolute z-0 w-[160px] h-[160px] rounded-full ${
-            check ? dimgBg : nimgBg
-          } blur-2xl`}
-        ></div>
-        <Image
-          className="absolute z-10"
-          src={imgSrc}
-          width={200}
-          height={200}
-        ></Image>
+    <div>
+      <div className="w-[512px] h-[80px] px-[24px] py-[16px] bg-gray-100 flex rounded-[48px]">
+        <IoIosSearch
+          className="w-[48px] h-[48px] text-gray-400"
+          onChange={gitFetcher}
+          width={48}
+          height={48}
+        />
+        <input
+          className="w-[400px]"
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+        ></input>
       </div>
-      <Celcius dayCheck={check} cUnit={temp} dayState={mainDay} />
-      <IconRow checkI={check} />
+      <div className="w-[512px] h-[200px] bg-gray-100 rounded-[24px]">
+        <div className="w-[100%]  bg-red-300">
+          {array.map((datas, id) => {
+            return (
+              <div className="" key={id}>
+                {datas}
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
- 

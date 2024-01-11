@@ -6,32 +6,52 @@ import { Inside } from "@/Components/Inside";
 import Logos from "@/Components/PineconoLogo";
 // import Home from "@/Components/Test";
 import { useState } from "react";
+import Round from "@/Components/Round";
 
 export default function Home(props) {
-  const [temp, setTemp] = useState("0");
-  const [state, setState] = useState("");
-  const { temporary = true } = props;
+  const [local, setLocal] = useState("");
+  const [state, setState] = useState({});
+  const [input, setInput] = useState("");
+  const [temps, setTemps] = useState({});
+
   const handleweater = async () => {
     const api_key = "7c91776fb1267161889e298c3e7ceb4b";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=Ulaanbaatar&lang=en&units=Metric&appid=${api_key}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${input}&lang=en&units=Metric&appid=${api_key}`;
     const waitMe = await fetch(url);
     const data = await waitMe.json();
     const dayState = data.weather[0].description;
     const nightState = data.weather[0].main;
     const tempurNight = data.main.temp_max;
     const tempurDay = data.main.temp_min;
-    setTemp(temporary ? tempurNight : tempurDay);
-    setState(temporary ? nightState : dayState);
+    const location = data.name;
     console.log(data);
+    setLocal(location);
+    setState({ dayState, nightState });
+    setTemps({ tempurDay, tempurNight });
   };
+  const rounds = [
+    { w: "[90px]", h: "[90px]", margint: "[250px]" },
+    // { w: "[180px]", h: "[180px]", margint: "[150px]" },
+    // { w: "[90px]", h: "[90px]", margint: "[250px]" },
+    // { w: "[90px]", h: "[90px]", margint: "[250px]" },
+  ];
   return (
     <div className="flex justify-center mt-[200px]  ">
       <div className="relative px-[40px] py-[40px] w-fit z bg-stone-800 flex justify-center">
         <Logos dayImage="/logoleft.svg" dayShadow="/logoright.svg" />
+        {/* <div className="absolute z-10">
+          {rounds.map((el, i) => {
+            return (
+              <div key={i}>
+                <Round width={el.w} height={el.h} />
+              </div>
+            );
+          })}
+        </div> */}
+        <Sugg inputSuggPart={input} />
         <div>
-          <Search handleweat={handleweater} />
+          <Search handleweat={handleweater} SetIputSearcgPart={setInput} />
         </div>
-        {/* <Sugg /> */}
         <Image
           src="/bigsun.png"
           width={130}
@@ -50,24 +70,24 @@ export default function Home(props) {
           src="/sun.png"
           width={100}
           height={100}
-          className="absolute z-[10] top-[140px] left-[70px]"
+          className="absolute z-[10] top-[140px] left-[70px] "
         />
         <Image
           src="/moon.svg"
           width={120}
           height={120}
-          className="absolute z-[10] top-[500px] right-[70px]"
+          className="absolute z-[10] top-[500px] right-[70px] "
         />{" "}
         <Inside
           left="120px"
           bg="#fbfbfc"
           textclr="black"
           textSize="34px"
-          temporary={true}
-          temp={temp}
+          temp={temps.tempurDay}
           check={false}
-          mood={state}
+          mood={state.dayState}
           moodClr="#ff8d28"
+          locationInIsidePard={local}
         />
         <Inside
           right="120px"
@@ -75,11 +95,11 @@ export default function Home(props) {
           textclr="#777e8b"
           textclr2="white"
           textSize="34px"
-          temp={temp}
-          temporary={false}
+          temp={temps.tempurNight}
           check={true}
-          mood={state}
+          mood={state.nightState}
           moodClr="#6b70ba"
+          locationInIsidePard={local}
         />
         <div className="flex relative">
           <Side bg="#F3F4F6;" radius="13px" />
