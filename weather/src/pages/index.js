@@ -13,10 +13,10 @@ export default function Home(props) {
   const [state, setState] = useState({});
   const [input, setInput] = useState("");
   const [temps, setTemps] = useState({});
-
-  const handleweater = async () => {
+  
+  const handleweater = async (cityName) => {
     const api_key = "7c91776fb1267161889e298c3e7ceb4b";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${input}&lang=en&units=Metric&appid=${api_key}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=en&units=Metric&appid=${api_key}`;
     const waitMe = await fetch(url);
     const data = await waitMe.json();
     const dayState = data.weather[0].description;
@@ -25,9 +25,12 @@ export default function Home(props) {
     const tempurDay = data.main.temp_min;
     const location = data.name;
     console.log(data);
+
     setLocal(location);
     setState({ dayState, nightState });
     setTemps({ tempurDay, tempurNight });
+    setInput(cityName);
+    // handlespeech();
   };
   const rounds = [
     { w: "[90px]", h: "[90px]", margint: "[250px]" },
@@ -48,9 +51,9 @@ export default function Home(props) {
             );
           })}
         </div> */}
-        <Sugg inputSuggPart={input} />
+        <Sugg inputSuggPart={input} handleweat={handleweater} />
         <div>
-          <Search handleweat={handleweater} SetIputSearcgPart={setInput} />
+          <Search SetIputSearcgPart={setInput} input={input} />
         </div>
         <Image
           src="/bigsun.png"
